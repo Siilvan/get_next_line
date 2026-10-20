@@ -6,7 +6,7 @@
 /*   By: sgroenve <sgroenve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 13:49:34 by sgroenve          #+#    #+#             */
-/*   Updated: 2026/10/19 17:50:33 by sgroenve         ###   ########.fr       */
+/*   Updated: 2026/10/20 11:44:40 by sgroenve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 # endif
 # include <stdlib.h>
 # include <unistd.h>
-char	*expand_size(char *ptr, size_t size);
+
 char	*ft_strchr(char *s, char c);
 char	*get_next_line(int fd);
-int		len_to_c(char *s, char c);
+int		len_c(char *s, char c);
 size_t	ft_strlcat(char *dst, char *src, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
 #endif

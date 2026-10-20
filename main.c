@@ -6,7 +6,7 @@
 /*   By: sgroenve <sgroenve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 17:03:22 by sgroenve          #+#    #+#             */
-/*   Updated: 2026/10/19 17:26:16 by sgroenve         ###   ########.fr       */
+/*   Updated: 2026/10/20 11:03:58 by sgroenve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ int main(void)
         printf("%s", line);
         free(line);
     }
+    // (line = get_next_line(fd));
+    // printf("%s", line);
+    // free(line);
+
 
     close(fd);
     return (0);
