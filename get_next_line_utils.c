@@ -6,68 +6,61 @@
 /*   By: sgroenve <sgroenve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 13:49:32 by sgroenve          #+#    #+#             */
-/*   Updated: 2026/10/20 11:45:19 by sgroenve         ###   ########.fr       */
+/*   Updated: 2026/10/21 17:41:45 by sgroenve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	len_c(char *s, char c)
+int	read_part(int fd, t_buffer *buf)
 {
-	int	i;
+	int	rr;
 
-	if (s == NULL)
-		return (0);
-	i = 0;
-	while (s[i] != c && s[i])
-		i++;
-	return (i);
+	rr = read(fd, buf->buffer + buf->chars_read, BUFFER_SIZE);
+	if (rr <= 0)
+		return (rr);
+	buf->chars_read += rr;
+	return (1);
 }
 
-char	*ft_strchr(char *s, char c)
+void	*add_size(void *ptr, size_t *size)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (s + i);
-		i++;
-	}
-	return (NULL);
-}
-
-size_t	ft_strlcat(char *dst, char *src, size_t size)
-{
-	size_t	dstlen;
+	void	*new_ptr;
 	size_t	i;
 
-	dstlen = len_c(dst, '\0');
-	if (size <= dstlen)
-		return (size + len_c(src, '\0'));
-	size = size - dstlen;
+	if (!ptr)
+		return (NULL);
+	new_ptr = malloc(*size + BUFFER_SIZE);
+	if (!new_ptr)
+		return (NULL);
 	i = 0;
-	while (src[i] && (i < (size - 1)))
+	while (i < *size)
 	{
-		dst[dstlen + i] = src[i];
+		((char *)new_ptr)[i] = ((char *)ptr)[i];
 		i++;
 	}
-	dst[dstlen + i] = 0;
-	return (dstlen + len_c(src, '\0'));
+	// ((char *)new_ptr)[i] = '\0';	
+	*size += BUFFER_SIZE;
+	free(ptr);
+	return (new_ptr);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*create_line(t_buffer *buf, unsigned long new_idx)
 {
-	int		size;
-	char	*sjoin;
+	char			*res;
+	unsigned long	i;
 
-	size = len_c(s1, '\0') + len_c(s2, '\0') + 1;
-	sjoin = malloc(size);
-	if (sjoin == NULL)
+	i = 0;
+	res = malloc(new_idx + 1);
+	if (!res)
 		return (NULL);
-	sjoin[0] = 0;
-	ft_strlcat(sjoin, s1, size);
-	ft_strlcat(sjoin, s2, size);
-	return (sjoin);
+	while (i < new_idx)
+	{
+		res[i] = buf->buffer[buf->idx];
+		i++;
+		buf->idx++;
+	}
+	res[i] = 0;
+	// printf("1%s1", res);
+	return (res);
 }
