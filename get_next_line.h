@@ -6,14 +6,14 @@
 /*   By: sgroenve <sgroenve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 13:49:34 by sgroenve          #+#    #+#             */
-/*   Updated: 2026/10/23 10:53:16 by sgroenve         ###   ########.fr       */
+/*   Updated: 2026/10/23 11:53:41 by sgroenve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 # include <stdlib.h>
 # include <unistd.h>
