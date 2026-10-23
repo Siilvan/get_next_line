@@ -6,7 +6,7 @@
 /*   By: sgroenve <sgroenve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 13:49:34 by sgroenve          #+#    #+#             */
-/*   Updated: 2026/10/21 17:22:40 by sgroenve         ###   ########.fr       */
+/*   Updated: 2026/10/23 10:53:16 by sgroenve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ typedef struct s_buffer
 	unsigned long	chars_read;
 }	t_buffer;
 
-char	*get_next_line(int fd);
 int		read_part(int fd, t_buffer *buf);
-void	*add_size(void *ptr, size_t *size);
+int		add_size(t_buffer *buf);
+void	free_buf(t_buffer **buf);
+void	clean_buf(t_buffer *buf);
+char	*get_next_line(int fd);
 char	*create_line(t_buffer *buf, unsigned long new_idx);
 #endif

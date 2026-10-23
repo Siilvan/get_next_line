@@ -6,7 +6,7 @@
 /*   By: sgroenve <sgroenve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 17:03:22 by sgroenve          #+#    #+#             */
-/*   Updated: 2026/10/21 17:41:51 by sgroenve         ###   ########.fr       */
+/*   Updated: 2026/10/23 11:22:00 by sgroenve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ int main(void)
 
     while ((line = get_next_line(fd)) != NULL)
     {
-        // printf("%s", line);
+        printf("%s", line);
         free(line);
     }
-    // (line = get_next_line(fd));
-    // printf("%s", line);
-    // free(line);
 
     close(fd);
     return (0);

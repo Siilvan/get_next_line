@@ -6,7 +6,7 @@
 /*   By: sgroenve <sgroenve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/19 13:49:32 by sgroenve          #+#    #+#             */
-/*   Updated: 2026/10/21 17:41:45 by sgroenve         ###   ########.fr       */
+/*   Updated: 2026/10/23 11:04:58 by sgroenve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,68 @@
 
 int	read_part(int fd, t_buffer *buf)
 {
-	int	rr;
+	ssize_t	rr;
 
+	if (buf->buf_size - buf->chars_read < BUFFER_SIZE && !add_size(buf))
+		return (-1);
 	rr = read(fd, buf->buffer + buf->chars_read, BUFFER_SIZE);
-	if (rr <= 0)
-		return (rr);
+	if (rr < 0)
+		return (-1);
 	buf->chars_read += rr;
+	return (rr > 0);
+}
+
+int	add_size(t_buffer *buf)
+{
+	char	*new_ptr;
+	size_t	i;
+
+	new_ptr = malloc(buf->buf_size + BUFFER_SIZE + 1);
+	if (!new_ptr)
+		return (0);
+	i = 0;
+	while (i < buf->chars_read)
+	{
+		new_ptr[i] = buf->buffer[i];
+		i++;
+	}
+	free(buf->buffer);
+	buf->buffer = new_ptr;
+	buf->buf_size += BUFFER_SIZE;
 	return (1);
 }
 
-void	*add_size(void *ptr, size_t *size)
+char	*create_line(t_buffer *buf, size_t len)
 {
-	void	*new_ptr;
+	char	*res;
 	size_t	i;
 
-	if (!ptr)
-		return (NULL);
-	new_ptr = malloc(*size + BUFFER_SIZE);
-	if (!new_ptr)
-		return (NULL);
-	i = 0;
-	while (i < *size)
-	{
-		((char *)new_ptr)[i] = ((char *)ptr)[i];
-		i++;
-	}
-	// ((char *)new_ptr)[i] = '\0';	
-	*size += BUFFER_SIZE;
-	free(ptr);
-	return (new_ptr);
-}
-
-char	*create_line(t_buffer *buf, unsigned long new_idx)
-{
-	char			*res;
-	unsigned long	i;
-
-	i = 0;
-	res = malloc(new_idx + 1);
+	res = malloc(len + 1);
 	if (!res)
 		return (NULL);
-	while (i < new_idx)
+	i = 0;
+	while (i < len)
 	{
 		res[i] = buf->buffer[buf->idx];
 		i++;
 		buf->idx++;
 	}
-	res[i] = 0;
-	// printf("1%s1", res);
+	res[i] = '\0';
 	return (res);
+}
+
+void	clean_buf(t_buffer *buf)
+{
+	size_t	i;
+
+	if (buf->idx == 0)
+		return ;
+	i = 0;
+	while (buf->idx + i < buf->chars_read)
+	{
+		buf->buffer[i] = buf->buffer[buf->idx + i];
+		i++;
+	}
+	buf->chars_read = i;
+	buf->idx = 0;
 }
